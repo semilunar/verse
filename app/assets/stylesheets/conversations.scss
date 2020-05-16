@@ -1,0 +1,30 @@
+h2.header {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.conversation-list {
+  border: 1px solid #000;
+  border-radius: 40px;
+  padding: 50px;
+
+  .conversation-list-items {
+    display: flex;
+    height: 200px;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    .conversation-item {
+      font-size: 18px;
+      line-height: 30px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        // filter: blur(1px);
+        text-decoration: underline;
+      }
+    }
+  }
+}
