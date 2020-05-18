@@ -11,9 +11,10 @@ const fullApp = (
     <App />
   </ActionCableProvider>
 );
+
+const root = document.createElement("div");
+root.id = "root";
+
 document.addEventListener("DOMContentLoaded", () => {
-  ReactDOM.render(
-    fullApp,
-    document.body.appendChild(document.createElement("div"))
-  );
+  ReactDOM.render(fullApp, document.body.appendChild(root));
 });

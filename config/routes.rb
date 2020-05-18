@@ -6,4 +6,6 @@ Rails.application.routes.draw do
 
   post 'typing', to: 'messages#typing'
   mount ActionCable.server => '/cable'
+
+  get '*path', to: 'page#index'
 end

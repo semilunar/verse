@@ -1,35 +1,46 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 
+import stringToColor from "../helpers/stringToColor";
+
 const NewMessageForm = ({ conversation_id, user }) => {
   const [text, setText] = useState("");
-  const [id, setId] = useState(0);
+  const inputEl = useRef(null);
 
-  useEffect(() => {
-    setId(conversation_id);
-  }, [conversation_id]);
+  useEffect(() => inputEl.current.focus());
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (!text) return;
 
-    axios.post("/messages", { text, conversation_id: id, author: user });
+    axios.post("/messages", { text, conversation_id, author: user });
 
     setText("");
   };
 
   const handleType = e => {
-    setText(e.target.value);
-    axios.post("/typing", { typing: text, conversation_id: id, user });
+    const { value } = e.target;
+    setText(value);
+    axios.post("/typing", { typing: value, conversation_id, user });
   };
 
   return (
     <div className="newMessageForm">
       <form onSubmit={handleSubmit}>
-        <label>New Message:</label>
         <div>
-          <input type="text" value={text} onChange={handleType} />
-          <input type="submit" />
+          <div
+            className="author-avatar"
+            style={{ backgroundColor: stringToColor(user) }}
+          />
+          <input
+            className="new-message-input"
+            type="text"
+            ref={inputEl}
+            value={text}
+            onChange={handleType}
+            placeholder="Write something special"
+          />
         </div>
       </form>
     </div>

@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { ActionCable } from "react-actioncable-provider";
+import axios from "axios";
 import { connect } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
+
 import store from "../store";
 import {
   setConversations,
@@ -11,9 +18,11 @@ import {
 import { setConversation, setTyping } from "../store/active/actions";
 import { setUser } from "../store/user/actions";
 
-import NewConversationForm from "../components/NewConversationForm";
-import MessagesArea from "../components/MessagesArea";
+import AboutPage from "../pages/AboutPage";
+import ConversationPage from "../pages/ConversationPage";
+import ConversationListPage from "../pages/ConversationListPage";
 import userAuthHandler from "../helpers/userAuthHandler";
+import ActionCableContainer from "./ActionCableContainer";
 
 const MainContainer = ({
   conversations,
@@ -60,37 +69,36 @@ const MainContainer = ({
   };
 
   return (
-    <div className="main-container">
-      <NewConversationForm />
-      <h2 className="header">Or join an existing one:</h2>
-      <ActionCable
-        channel={{ channel: "ConversationsChannel" }}
-        onReceived={handleReceivedConversation}
+    <Router>
+      <ActionCableContainer
+        handleReceivedConversation={handleReceivedConversation}
+        handleReceivedMessage={handleReceivedMessage}
+        conversations={conversations}
       />
-      <ul className="conversation-list">
-        <div className="conversation-list-items">
-          {conversations.length > 0 &&
-            conversations.map(c => (
-              <li
-                key={c.id}
-                onClick={() => setActiveConversation(c.id)}
-                className="conversation-item"
-              >
-                <ActionCable
-                  key={c.id}
-                  channel={{
-                    channel: "MessagesChannel",
-                    conversation: c.id
-                  }}
-                  onReceived={handleReceivedMessage}
-                />
-                {c.title}
-              </li>
-            ))}
-        </div>
-        {activeConversation ? <MessagesArea /> : null}
-      </ul>
-    </div>
+      <Switch>
+        <Route path="/about" component={AboutPage} />
+        <Route
+          path="/rooms/"
+          exact
+          render={props => (
+            <ConversationListPage
+              {...props}
+              conversations={conversations}
+              setActiveConversation={setActiveConversation}
+              handleReceivedMessage={handleReceivedMessage}
+              handleReceivedConversation={handleReceivedConversation}
+            />
+          )}
+        />
+        {activeConversation ? (
+          <Route
+            path="/room/:id"
+            render={props => <ConversationPage {...props} />}
+          />
+        ) : null}
+        <Redirect to="/rooms" />
+      </Switch>
+    </Router>
   );
 };
 

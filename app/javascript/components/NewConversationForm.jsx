@@ -20,7 +20,7 @@ export default () => {
             value={title}
             onChange={e => setTitle(e.target.value)}
           />
-          <input type="submit" />
+          <input type="submit" value="Create" style={{ fontSize: 16 }} />
         </div>
       </form>
     </div>

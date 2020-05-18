@@ -1,0 +1,50 @@
+.about-container {
+  .logo {
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 39px;
+    margin-top: 36px;
+    text-align: center;
+  }
+
+  .description-wrap {
+    position: absolute;
+    width: 532px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .subheader {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 30px;
+      color: #ff0000;
+      margin-bottom: 20px;
+    }
+
+    .about-description {
+      font-style: normal;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 150%;
+      color: #ff0000;
+      opacity: 0.5;
+    }
+
+    .buttons-wrap {
+      margin-top: 60px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      button {
+        width: 100px;
+        height: 21px;
+        transform: scale(2.5);
+        // font-size: 34px;
+        // line-height: 65px;
+      }
+    }
+  }
+}
