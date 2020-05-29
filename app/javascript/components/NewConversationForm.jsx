@@ -13,8 +13,8 @@ export default () => {
   return (
     <div className="newConversationForm">
       <form onSubmit={handleSubmit}>
-        <label>Create a new conversation:</label>
-        <div>
+        <label className="subheader">Create a new room:</label>
+        <div className="form_wrap">
           <input
             type="text"
             value={title}

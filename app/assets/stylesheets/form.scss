@@ -1,26 +1,70 @@
-form {
-  margin: 0 0 30px !important;
+// new conversation form
 
-  label {
-    font-size: 20px;
-    font-weight: 500;
-    margin-bottom: 20px;
+.newConversationForm {
+  margin-bottom: 60px;
+
+  .form_wrap {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
   }
 
-  div {
-    display: flex;
-    margin-top: 10px;
+  input[type="text"] {
+    font-family: "Times New Roman", serif;
+    font-size: 18px;
+    line-height: 32px;
+    padding: 4px 10px;
+    border-radius: 0;
+    border: 1px solid #000;
+    width: 80%;
+    margin-right: 20px;
 
-    .new-message-input {
-      font-size: 30px;
-      line-height: 150%;
+    &:focus {
+      border: 1px solid #fff;
+    }
+  }
+
+  input[type="submit"] {
+    font-size: 14px;
+    background: #fff;
+    border: 1px dotted transparent;
+    transition: 0.1s border ease-out;
+    -webkit-transition: 0.1s border ease-out;
+    -moz-transition: 0.1s border ease-out;
+    -o-transition: 0.1s border ease-out;
+
+    &:hover {
+      // border: 1px solid #000;
+      font-style: italic;
+    }
+  }
+}
+
+// new message form
+
+.newMessageForm {
+  form {
+    label {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .form_wrap {
       width: 100%;
-      border: none;
-      resize: none;
-      font-family: "Gaegu", "Helvetica", cursive;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 12px 0;
 
-      &::placeholder {
-        color: #d6d6d6;
+      .new-message-input {
+        font-size: 18px;
+        line-height: 32px;
+        width: calc(100% - 68px);
+        border: none;
+        resize: none;
+        font-family: courier-std, monospace;
+        background: transparent;
       }
     }
   }

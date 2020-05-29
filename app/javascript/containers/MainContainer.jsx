@@ -18,6 +18,7 @@ import {
 import { setConversation, setTyping } from "../store/active/actions";
 import { setUser } from "../store/user/actions";
 
+import Menubar from "../components/Menubar";
 import AboutPage from "../pages/AboutPage";
 import ConversationPage from "../pages/ConversationPage";
 import ConversationListPage from "../pages/ConversationListPage";
@@ -33,7 +34,8 @@ const MainContainer = ({
   activeConversation,
   handleUserToStore,
   user,
-  handleTypingToStore
+  handleTypingToStore,
+  typing
 }) => {
   // в корневом элементе делаем запрос на все беседы,
   // чтобы юзер при загрузке увидел их список
@@ -53,6 +55,7 @@ const MainContainer = ({
 
   const handleReceivedMessage = res => {
     if (res.hasOwnProperty("typing")) return handleTyping(res);
+
     const { message } = res;
     let conversation = conversations.find(
       conversation => conversation.id === message.conversation_id
@@ -64,6 +67,7 @@ const MainContainer = ({
   };
 
   const handleReceivedConversation = response => {
+    console.log("handleReceivedConversation", response);
     const { conversation } = response;
     addConversation(conversation);
   };
@@ -75,6 +79,7 @@ const MainContainer = ({
         handleReceivedMessage={handleReceivedMessage}
         conversations={conversations}
       />
+      <Menubar />
       <Switch>
         <Route path="/about" component={AboutPage} />
         <Route
@@ -110,6 +115,7 @@ const mapStateToProps = ({
 }) => ({
   conversations,
   activeConversation: conversation,
+  typing,
   user
 });
 // возвращает объект с пропсом handleConversations, который есть функция,

@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 
 import NewConversationForm from "../components/NewConversationForm";
 
+import stringToColor from "../helpers/stringToColor";
+
 export default ({ setActiveConversation, conversations }) => {
   return (
     <div className="conversation-container">
       <NewConversationForm />
-      <h2 className="header">Or join an existing one:</h2>
+      <h2 className="subheader">Or join an existing one:</h2>
       <ul className="conversation-list">
         {conversations.length > 0 &&
           conversations.map(c => (
@@ -16,6 +18,7 @@ export default ({ setActiveConversation, conversations }) => {
               <li
                 onClick={() => setActiveConversation(c.id)}
                 className="conversation-item"
+                style={{ background: stringToColor((c.id * 9e9).toString()) }}
               >
                 {c.title}
               </li>

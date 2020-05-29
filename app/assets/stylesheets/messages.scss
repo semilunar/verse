@@ -1,31 +1,28 @@
 .conversation-page {
-  border-top: 1px solid #000;
-  // margin: 50px 0;
-  padding: 36px;
-  border-radius: 15px;
-  background: #ffffff;
-  // box-shadow: 0px 8px 74px rgba(0, 0, 0, 0.05);
-  width: 1150px;
-  margin: auto;
+  // width: 1150px;
+  width: 50vw;
   height: 100vh;
-  margin-top: 10px;
+  margin: 20px auto 200px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 100vh;
+  // justify-content: space-between;
+  // min-height: 100vh;
 
   .conversation-area {
-    overflow: scroll;
+    overflow-y: visible;
+    position: relative;
   }
 
   .conversation-title {
-    font-size: 32px;
+    font-size: 20px;
+    padding: 4px 10px;
     line-height: 40px;
     text-align: center;
     text-transform: capitalize;
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
+    z-index: -1;
   }
 
   .messages-list {
@@ -36,10 +33,11 @@
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      margin-bottom: 10px;
 
       .message-text {
-        font-size: 30px;
-        line-height: 150%;
+        font-size: 18px;
+        line-height: 32px;
 
         &.blur {
           filter: blur(10px);
@@ -53,6 +51,21 @@
       }
     }
   }
+
+  button {
+    position: fixed;
+    bottom: 60px;
+    right: 100px;
+    width: 200px;
+    height: 50px;
+    background: transparent;
+    border: 1px solid #000;
+    font-size: 16px;
+
+    &:hover {
+      font-style: italic;
+    }
+  }
 }
 
 .author-avatar {
@@ -60,5 +73,18 @@
   height: 30px;
   margin-right: 36px;
   border-radius: 50%;
-  background: #111;
+  background: #000;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fefefe;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000;
+  height: 30px;
 }

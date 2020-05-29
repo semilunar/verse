@@ -14,6 +14,7 @@ const NewMessageForm = ({ conversation_id, user }) => {
     e.preventDefault();
     if (!text) return;
 
+    axios.post("/typing", { typing: "", conversation_id, user });
     axios.post("/messages", { text, conversation_id, author: user });
 
     setText("");
@@ -28,10 +29,10 @@ const NewMessageForm = ({ conversation_id, user }) => {
   return (
     <div className="newMessageForm">
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form_wrap">
           <div
             className="author-avatar"
-            style={{ backgroundColor: stringToColor(user) }}
+            style={{ backgroundColor: stringToColor(user.slice(-20)) }}
           />
           <input
             className="new-message-input"
@@ -39,7 +40,7 @@ const NewMessageForm = ({ conversation_id, user }) => {
             ref={inputEl}
             value={text}
             onChange={handleType}
-            placeholder="Write something special"
+            placeholder="First line is always hard, but I believe in you"
           />
         </div>
       </form>

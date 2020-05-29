@@ -11,7 +11,7 @@ export default () => {
 
   const handleText = () => {
     if (!text) return;
-    if (text.length % 40 === 0) {
+    if (text.length % 60 === 0) {
       const wordsList = text.split(" ");
       const lastW = wordsList.pop();
       const prevText = wordsList.join(" ");
@@ -33,7 +33,7 @@ export default () => {
         <input
           type="text"
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={e => setText(e.target.value)}
         />
       )}
     </div>

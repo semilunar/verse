@@ -1,0 +1,30 @@
+.menubar {
+  text-align: center;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  background: transparent;
+
+  .active {
+    opacity: 0.3;
+  }
+
+  .menubar__link {
+    display: inline-block;
+    width: 150px;
+    line-height: 51px;
+    border: 1px dotted transparent;
+    transition: 0.1s border ease-out;
+    -webkit-transition: 0.1s border ease-out;
+    -moz-transition: 0.1s border ease-out;
+    -o-transition: 0.1s border ease-out;
+    cursor: context-menu;
+
+    &:hover {
+      border: 1px dotted #000;
+    }
+  }
+}

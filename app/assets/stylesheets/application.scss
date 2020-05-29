@@ -14,7 +14,7 @@
  *= require_self
  */
 
-@import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap");
+@import url("https://use.typekit.net/cgf2bag.css");
 
 * {
   box-sizing: border-box;
@@ -23,8 +23,9 @@
 body {
   color: #121212;
   background: #fff;
-  font-family: "Gaegu", "Helvetica", cursive;
-  // background: #b4ff00;
+  font-family: courier-std, monospace;
+  font-style: normal;
+  font-weight: 400;
 }
 
 a,
@@ -33,6 +34,10 @@ a:visited {
   text-decoration: none;
 }
 
-button:hover {
+button {
   cursor: pointer;
+}
+
+::placeholder {
+  color: rgba(0, 0, 0, 0.3);
 }
