@@ -8,7 +8,7 @@ import stringToColor from "../helpers/stringToColor";
 const ConversationPage = ({ conversation, user, typing }) => {
   if (!conversation) return null;
 
-  window.scrollTo(0, document.body.scrollHeight);
+  // window.scrollTo(0, document.body.scrollHeight);
 
   const { id, title, messages } = conversation;
   return (

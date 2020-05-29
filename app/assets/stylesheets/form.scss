@@ -43,6 +43,8 @@
 // new message form
 
 .newMessageForm {
+  font-family: fira-mono, monospace;
+
   form {
     label {
       font-size: 20px;
@@ -63,7 +65,7 @@
         width: calc(100% - 68px);
         border: none;
         resize: none;
-        font-family: courier-std, monospace;
+        font-family: "Fira Mono", monospace;
         background: transparent;
       }
     }
