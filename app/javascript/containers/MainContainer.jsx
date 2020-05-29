@@ -20,6 +20,7 @@ import { setUser } from "../store/user/actions";
 
 import Menubar from "../components/Menubar";
 import AboutPage from "../pages/AboutPage";
+import ProjectsPage from "../pages/ProjectsPage";
 import ConversationPage from "../pages/ConversationPage";
 import ConversationListPage from "../pages/ConversationListPage";
 import userAuthHandler from "../helpers/userAuthHandler";
@@ -82,6 +83,7 @@ const MainContainer = ({
       <Menubar />
       <Switch>
         <Route path="/about" component={AboutPage} />
+        <Route path="/projects" component={ProjectsPage} />
         <Route
           path="/rooms/"
           exact
