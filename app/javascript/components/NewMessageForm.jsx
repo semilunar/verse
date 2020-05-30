@@ -4,26 +4,38 @@ import { connect } from "react-redux";
 
 import stringToColor from "../helpers/stringToColor";
 
-const NewMessageForm = ({ conversation_id, user }) => {
+const NewMessageForm = ({ conversation_id, user, lastMessage }) => {
   const [text, setText] = useState("");
   const inputEl = useRef(null);
 
   useEffect(() => inputEl.current.focus());
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    if (!text) return;
+  useEffect(() => {
+    if (!lastMessage) return;
 
+    setText(lastMessage);
+  }, [lastMessage]);
+
+  const handleSend = () => {
     axios.post("/typing", { typing: "", conversation_id, user });
     axios.post("/messages", { text, conversation_id, author: user });
 
     setText("");
   };
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (!text) return;
+
+    handleSend();
+  };
+
   const handleType = e => {
     const { value } = e.target;
     setText(value);
     axios.post("/typing", { typing: value, conversation_id, user });
+
+    if (value.length > 60) handleSend();
   };
 
   return (
@@ -48,6 +60,9 @@ const NewMessageForm = ({ conversation_id, user }) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ user, conversation: { lastMessage } }) => ({
+  user,
+  lastMessage
+});
 
 export default connect(mapStateToProps)(NewMessageForm);

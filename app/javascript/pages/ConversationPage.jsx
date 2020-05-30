@@ -66,7 +66,7 @@ const orderedMessages = (messages, user) => {
 
 const mapStateToProps = ({
   conversations,
-  active: { conversation, typing },
+  conversation: { conversation, typing },
   user
 }) => ({
   conversation: conversations.find(c => c.id === conversation),

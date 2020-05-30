@@ -1,0 +1,40 @@
+.projects-page {
+  font-family: "Times New Roman", serif;
+  width: 90vw;
+  margin: auto;
+  margin-top: 30px;
+
+  .subheader {
+    font-style: italic;
+    font-size: 18px;
+    line-height: 30px;
+    margin-bottom: 20px;
+  }
+
+  .projects-list {
+    display: flex;
+    height: 600px;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    a {
+      width: fit-content;
+    }
+
+    .project-item {
+      font-size: 18px;
+      line-height: 32px;
+      padding: 4px 10px;
+      width: fit-content;
+      cursor: pointer;
+      transition: 0.1s background ease-out;
+      -webkit-transition: 0.1s background ease-out;
+      -moz-transition: 0.1s background ease-out;
+      -o-transition: 0.1s background ease-out;
+
+      &:hover {
+        background: #fff !important;
+      }
+    }
+  }
+}

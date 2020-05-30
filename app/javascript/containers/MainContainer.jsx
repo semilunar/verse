@@ -15,7 +15,7 @@ import {
   updateConversations,
   addConversation
 } from "../store/conversations/actions";
-import { setConversation, setTyping } from "../store/active/actions";
+import { setConversation, setTyping } from "../store/conversation/actions";
 import { setUser } from "../store/user/actions";
 
 import Menubar from "../components/Menubar";
@@ -112,7 +112,7 @@ const MainContainer = ({
 // подключаем state редаксa и экшены к пропсам компонента
 const mapStateToProps = ({
   conversations,
-  active: { conversation, typing },
+  conversation: { conversation, typing },
   user
 }) => ({
   conversations,

@@ -1,7 +1,7 @@
 import { createReducer } from "redux-act";
-import { setConversation, setTyping } from "./actions";
+import { setConversation, setTyping, setLastMessage } from "./actions";
 
-const initialState = { conversation: null, typing: {} };
+const initialState = { conversation: null, typing: {}, lastMessage: null };
 
 export default createReducer(
   {
@@ -12,6 +12,10 @@ export default createReducer(
     [setTyping]: (state, { text, author }) => ({
       ...state,
       typing: { text, author }
+    }),
+    [setLastMessage]: (state, { text, author }) => ({
+      ...state,
+      lastMessage: { text, author }
     })
   },
   initialState

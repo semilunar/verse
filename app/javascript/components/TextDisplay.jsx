@@ -11,13 +11,13 @@ export default () => {
 
   const handleText = () => {
     if (!text) return;
-    if (text.length % 60 === 0) {
-      const wordsList = text.split(" ");
-      const lastW = wordsList.pop();
-      const prevText = wordsList.join(" ");
-      setTextList([...textList, prevText]);
-      setText(lastW);
-    }
+
+    // if (text.length % 60 === 0)
+    const wordsList = text.split(" ");
+    const lastW = wordsList.pop();
+    const prevText = wordsList.join(" ");
+    setTextList([...textList, prevText]);
+    setText(lastW);
   };
   handleText();
 

@@ -16,6 +16,10 @@ export default () => {
           mathematician Grigori Perelman, who declined the prize money.
         </p>
       </div>
+
+      <p className="contacts">
+        <a href="https://semilunar.github.io/meh.html">katja nikitina</a> 2020
+      </p>
     </div>
   );
 };

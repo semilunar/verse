@@ -3,12 +3,12 @@ import thunk from "redux-thunk";
 import { createLogger } from "redux-logger";
 
 import conversations from "./conversations/";
-import active from "./active/";
+import conversation from "./conversation/";
 import user from "./user/";
 
 const rootReducer = combineReducers({
   conversations,
-  active,
+  conversation,
   user
 });
 
