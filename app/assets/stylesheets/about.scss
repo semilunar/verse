@@ -25,15 +25,10 @@
   }
 
   .contacts {
-    font-size: 14px;
+    font-size: 11px;
     position: absolute;
     bottom: 36px;
     left: 50%;
-    transform: translateX(-50%) scale(0.5);
-    transition: all 0.3 ease-out;
-
-    &:hover {
-      transform: translateX(-50%) scale(1);
-    }
+    transform: translateX(-50%);
   }
 }

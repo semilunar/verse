@@ -42,3 +42,9 @@ button {
 ::placeholder {
   color: rgba(0, 0, 0, 0.3);
 }
+
+::selection {
+  background: #fff;
+  color: transparent;
+  text-shadow: 0 0 5px #000;
+}
