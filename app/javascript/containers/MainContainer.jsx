@@ -122,7 +122,7 @@ const MainContainer = ({
             render={props => <ConversationPage {...props} />}
           />
         ) : null}
-        <Redirect to="/rooms" />
+        <Redirect to="/about" />
       </Switch>
     </Router>
   );
