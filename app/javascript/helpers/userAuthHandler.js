@@ -1,11 +1,11 @@
 import generateUUID from "./generateUUID";
 
 export default () => {
-  const prevUser = localStorage.getItem("user");
-  if (prevUser) return prevUser;
+  const prevUserId = localStorage.getItem("userid");
+  if (prevUserId) return prevUserId;
 
-  const userInfo = generateUUID();
-  localStorage.setItem("user", userInfo);
+  const userId = generateUUID();
+  localStorage.setItem("userid", userId);
 
-  return userInfo;
+  return userId;
 };

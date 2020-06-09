@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import NewMessageForm from "../components/NewMessageForm";
 import needBlur from "../helpers/needBlur";
+import setTitle from "../helpers/setTitle";
 import stringToColor from "../helpers/stringToColor";
 
 const ConversationPage = ({ conversation, user, typing }) => {
-  if (!conversation) return null;
+  useEffect(() => {
+    if (conversation) {
+      setTitle(conversation.title);
+    }
+  }, [conversation]);
 
-  // window.scrollTo(0, document.body.scrollHeight);
+  if (!conversation) return null;
 
   const { id, title, messages } = conversation;
   return (
