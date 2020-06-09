@@ -15,6 +15,14 @@ class ConversationsController < ApplicationController
     end
   end
 
+  def destroy
+    conversation = Conversation.find(params[:id])
+    if conversation
+      conversation.destroy
+      render json: {message: 'ok'}
+    end
+  end
+
   private
 
   def conversation_params

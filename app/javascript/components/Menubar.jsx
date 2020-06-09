@@ -4,14 +4,14 @@ import { NavLink } from "react-router-dom";
 export default () => {
   return (
     <div className="menubar">
-      <NavLink to="/about">
-        <a className="menubar__link">info</a>
+      <NavLink to="/about" className="menubar__link">
+        info
       </NavLink>
-      <NavLink to="/rooms">
-        <a className="menubar__link">rooms</a>
+      <NavLink to="/rooms" className="menubar__link">
+        rooms
       </NavLink>
-      <NavLink to="/projects">
-        <a className="menubar__link">projects</a>
+      <NavLink to="/projects" className="menubar__link">
+        projects
       </NavLink>
     </div>
   );

@@ -15,7 +15,7 @@ export default () => {
           <em> wait for the stranger</em>. First line is always hard, but be
           tactful: every last word of your line is the first word of next
           person's saying. You won't see the full work before publish. Like in a
-          Chinese whispers game oh what tender stazas will you get.
+          Chinese whispers game, oh, what tender stanzas will you get.
         </p>
       </div>
 

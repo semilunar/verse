@@ -14,7 +14,7 @@ export default () => {
     <div className="newConversationForm">
       <form onSubmit={handleSubmit}>
         <label className="subheader">Create a new room:</label>
-        <div className="form_wrap">
+        <div className="form-wrap">
           <input
             type="text"
             value={title}

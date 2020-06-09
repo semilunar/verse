@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :messages, only: [:create]
 
   post 'typing', to: 'messages#typing'
+  post 'deleteconversation', to: 'conversations#destroy'
+  
   mount ActionCable.server => '/cable'
 
   get '*path', to: 'page#index'

@@ -1,12 +1,9 @@
 .conversation-page {
-  // width: 1150px;
   width: 50vw;
-  height: 100vh;
+  min-height: 100vh;
   margin: 20px auto 200px;
   display: flex;
   flex-direction: column;
-  // justify-content: space-between;
-  // min-height: 100vh;
 
   .conversation-area {
     overflow-y: visible;

@@ -13,14 +13,20 @@ import store from "../store";
 import {
   setConversations,
   updateConversations,
-  addConversation
+  addConversation,
+  deleteConversation
 } from "../store/conversations/actions";
-import { setConversation, setTyping } from "../store/conversation/actions";
+import {
+  setConversation,
+  setTyping,
+  setLastMessage
+} from "../store/conversation/actions";
 import { setUser } from "../store/user/actions";
 
 import Menubar from "../components/Menubar";
 import AboutPage from "../pages/AboutPage";
 import ProjectsPage from "../pages/ProjectsPage";
+import ProjectPage from "../pages/ProjectPage";
 import ConversationPage from "../pages/ConversationPage";
 import ConversationListPage from "../pages/ConversationListPage";
 import userAuthHandler from "../helpers/userAuthHandler";
@@ -36,7 +42,9 @@ const MainContainer = ({
   handleUserToStore,
   user,
   handleTypingToStore,
-  typing
+  typing,
+  handleLastMessage,
+  deleteConversation
 }) => {
   // в корневом элементе делаем запрос на все беседы,
   // чтобы юзер при загрузке увидел их список
@@ -58,19 +66,28 @@ const MainContainer = ({
     if (res.hasOwnProperty("typing")) return handleTyping(res);
 
     const { message } = res;
+    const { text, author } = message;
     let conversation = conversations.find(
       conversation => conversation.id === message.conversation_id
     );
-    console.log("new message", message);
     conversation.messages = [...conversation.messages, message];
-    conversation = { ...conversation };
+    // conversation = { ...conversation };
     updateConversations(conversation);
+    const lastWord = text.split(" ").pop();
+    handleLastMessage(lastWord, author);
   };
 
   const handleReceivedConversation = response => {
-    console.log("handleReceivedConversation", response);
     const { conversation } = response;
     addConversation(conversation);
+  };
+
+  const handleDelete = id => {
+    axios.post("/deleteconversation", { id }).then(({ data }) => {
+      if (data.message === "ok") {
+        deleteConversation(id);
+      }
+    });
   };
 
   return (
@@ -84,6 +101,7 @@ const MainContainer = ({
       <Switch>
         <Route path="/about" component={AboutPage} />
         <Route path="/projects" component={ProjectsPage} />
+        <Route path="/project/:pid" component={ProjectPage} />
         <Route
           path="/rooms/"
           exact
@@ -94,6 +112,7 @@ const MainContainer = ({
               setActiveConversation={setActiveConversation}
               handleReceivedMessage={handleReceivedMessage}
               handleReceivedConversation={handleReceivedConversation}
+              handleDelete={handleDelete}
             />
           )}
         />
@@ -129,7 +148,9 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateConversations(conversation)),
   addConversation: conversation => dispatch(addConversation(conversation)),
   handleUserToStore: data => dispatch(setUser(data)),
-  handleTypingToStore: (text, author) => dispatch(setTyping(text, author))
+  handleTypingToStore: (text, author) => dispatch(setTyping(text, author)),
+  handleLastMessage: (text, author) => dispatch(setLastMessage(text, author)),
+  deleteConversation: id => dispatch(deleteConversation(id))
 });
 
 export default connect(
