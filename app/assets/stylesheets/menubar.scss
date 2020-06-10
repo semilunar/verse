@@ -7,6 +7,7 @@
   text-transform: uppercase;
   border-bottom: 1px solid #000;
   background: transparent;
+  position: relative;
 
   .active {
     opacity: 0.3;
@@ -26,5 +27,33 @@
     &:hover {
       border: 1px dotted #000;
     }
+  }
+
+  .avatar {
+    position: absolute;
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    background: #000;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+      & + .nickname {
+        opacity: 1;
+      }
+    }
+  }
+
+  .nickname {
+    position: absolute;
+    right: 60px;
+    text-align: right;
+    opacity: 0;
+    background: #fff;
+    font-family: "Times New Roman", serif;
+    text-transform: lowercase;
+    font-size: 18px;
+    transition: opacity 0.1s ease-out;
   }
 }

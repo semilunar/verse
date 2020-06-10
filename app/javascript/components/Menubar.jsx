@@ -13,6 +13,9 @@ export default () => {
       <NavLink to="/projects" className="menubar__link">
         projects
       </NavLink>
+
+      <div className="avatar"></div>
+      <div className="nickname">semilunar</div>
     </div>
   );
 };

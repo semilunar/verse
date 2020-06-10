@@ -5,11 +5,13 @@ import { createLogger } from "redux-logger";
 import conversations from "./conversations/";
 import conversation from "./conversation/";
 import user from "./user/";
+import togglers from "./togglers/";
 
 const rootReducer = combineReducers({
   conversations,
   conversation,
-  user
+  user,
+  togglers
 });
 
 // мидлвар – посредник между пуском экшэна и диспатчем, обработкой действия

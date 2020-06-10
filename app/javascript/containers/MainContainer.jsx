@@ -22,6 +22,7 @@ import {
   setLastMessage
 } from "../store/conversation/actions";
 import { setUser } from "../store/user/actions";
+import { toggleAuth } from "../store/togglers/actions";
 
 import Menubar from "../components/Menubar";
 import AboutPage from "../pages/AboutPage";
@@ -40,18 +41,22 @@ const MainContainer = ({
   addConversation,
   activeConversation,
   handleUserToStore,
-  user,
   handleTypingToStore,
   typing,
   handleLastMessage,
-  deleteConversation
+  deleteConversation,
+  toggleAuth
 }) => {
   // в корневом элементе делаем запрос на все беседы,
   // чтобы юзер при загрузке увидел их список
   useEffect(() => {
     axios.get("/conversations").then(({ data }) => handleConversations(data));
     const data = userAuthHandler();
-    handleUserToStore(data);
+    if (data) {
+      handleUserToStore(data);
+    } else {
+      toggleAuth(true);
+    }
   }, []);
 
   const handleTyping = ({ typing }) => {
@@ -131,13 +136,11 @@ const MainContainer = ({
 // подключаем state редаксa и экшены к пропсам компонента
 const mapStateToProps = ({
   conversations,
-  conversation: { conversation, typing },
-  user
+  conversation: { conversation, typing }
 }) => ({
   conversations,
   activeConversation: conversation,
-  typing,
-  user
+  typing
 });
 // возвращает объект с пропсом handleConversations, который есть функция,
 // которая диспатчит экшн, payload которой есть data
@@ -150,7 +153,8 @@ const mapDispatchToProps = dispatch => ({
   handleUserToStore: data => dispatch(setUser(data)),
   handleTypingToStore: (text, author) => dispatch(setTyping(text, author)),
   handleLastMessage: (text, author) => dispatch(setLastMessage(text, author)),
-  deleteConversation: id => dispatch(deleteConversation(id))
+  deleteConversation: id => dispatch(deleteConversation(id)),
+  toggleAuth: bool => dispatch(toggleAuth(bool))
 });
 
 export default connect(

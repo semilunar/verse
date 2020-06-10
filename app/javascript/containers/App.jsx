@@ -1,15 +1,19 @@
 import React from "react";
 import axios from "axios";
-import { Provider } from "react-redux";
-import store from "../store";
+import { ActionCableProvider } from "react-actioncable-provider";
+import { connect } from "react-redux";
 
 import MainContainer from "./MainContainer";
+import Modal from "../components/Modal";
 
 const csrfToken = document.querySelector('[name="csrf-token"]').content;
 axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
 
-export default () => (
-  <Provider store={store}>
+const App = ({ auth }) => (
+  <ActionCableProvider url="ws://localhost:3000/cable">
     <MainContainer />
-  </Provider>
+    {auth && <Modal />}
+  </ActionCableProvider>
 );
+
+export default connect(({ togglers: { auth } }) => ({ auth }))(App);

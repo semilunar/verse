@@ -1,0 +1,62 @@
+.modal-overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.25);
+  position: fixed;
+  top: 0;
+  left: 0;
+  cursor: not-allowed;
+
+  // display: none;
+
+  .modal-container {
+    background: #fff;
+    width: 520px;
+    height: 150px;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 0 20px 35px;
+    font-family: "Times New Roman", serif;
+    border: 1px dashed #000;
+    cursor: auto;
+
+    h3 {
+      font-size: 18px;
+      line-height: 30px;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+
+      input[type="text"] {
+        font-family: "Times New Roman", serif;
+        font-size: 18px;
+        line-height: 32px;
+        padding: 4px 10px;
+        border-radius: 0;
+        border: 1px solid #000;
+        width: 80%;
+        margin-right: 20px;
+
+        &:focus {
+          border: 1px solid transparent;
+        }
+      }
+
+      input[type="submit"] {
+        background: #fff;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          font-style: italic;
+        }
+      }
+    }
+  }
+}

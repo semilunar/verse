@@ -3,12 +3,14 @@ import { ActionCable } from "react-actioncable-provider";
 import { Link } from "react-router-dom";
 
 import NewConversationForm from "../components/NewConversationForm";
+import Modal from "../components/Modal";
 
 import stringToColor from "../helpers/stringToColor";
 
 export default ({ setActiveConversation, conversations, handleDelete }) => {
   return (
     <div className="conversation-container">
+      <Modal />
       <NewConversationForm />
       <h2 className="subheader">Or join an existing one:</h2>
       <ul className="conversation-list">

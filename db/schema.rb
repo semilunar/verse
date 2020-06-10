@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_145021) do
+ActiveRecord::Schema.define(version: 2020_06_10_103620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,14 @@ ActiveRecord::Schema.define(version: 2020_05_16_145021) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "author"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+  end
+
+  create_table "publications", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.string "authors"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "messages", "conversations"

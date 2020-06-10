@@ -1,7 +1,5 @@
 import React from "react";
 
-import NewConversationForm from "../components/NewConversationForm";
-
 export default () => {
   return (
     <div className="about-container">
@@ -20,11 +18,10 @@ export default () => {
       </div>
 
       <p className="contacts">
-        от{" "}
         <a href="https://telegram.me/semilunar" target="_blank">
           katja nikitina
         </a>{" "}
-        в 2020
+        2020
       </p>
     </div>
   );

@@ -10,7 +10,11 @@ export default ({
   }, [pid]);
   return (
     <div className="project-page">
-      <h2 className="subheader">project {pid}</h2>
+      <h2 className="title">project {pid}</h2>
+      <div className="text"></div>
+
+      <div className="authors"></div>
+      <div className="date"></div>
     </div>
   );
 };

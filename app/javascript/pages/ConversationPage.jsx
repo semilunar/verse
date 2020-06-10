@@ -28,7 +28,7 @@ const ConversationPage = ({ conversation, user, typing }) => {
 
         <ul className="messages-list">
           {orderedMessages(messages, user)}
-          {typing.text && typing.author !== user && (
+          {typing.text && typing.author !== user.id && (
             <li className="message-wrap">
               <div
                 className="author-avatar"

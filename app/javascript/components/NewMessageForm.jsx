@@ -21,7 +21,7 @@ const NewMessageForm = ({ conversation_id, user, lastMessage }) => {
     if (!lastMessage) return;
 
     const { text, author } = lastMessage;
-    if (user === author) {
+    if (user.id === author) {
       setPlaceholder(placeholders[1]);
     } else {
       setPlaceholder(placeholders[2]);
@@ -30,8 +30,8 @@ const NewMessageForm = ({ conversation_id, user, lastMessage }) => {
   }, [lastMessage]);
 
   const handleSend = () => {
-    axios.post("/typing", { typing: "", conversation_id, user });
-    axios.post("/messages", { text, conversation_id, author: user });
+    axios.post("/typing", { typing: "", conversation_id, user: user.id });
+    axios.post("/messages", { text, conversation_id, author: user.id });
 
     setText("");
   };
@@ -46,7 +46,7 @@ const NewMessageForm = ({ conversation_id, user, lastMessage }) => {
   const handleType = e => {
     const { value } = e.target;
     setText(value);
-    axios.post("/typing", { typing: value, conversation_id, user });
+    axios.post("/typing", { typing: value, conversation_id, user: user.id });
 
     if (value.length > 60) {
       handleSend();
@@ -59,7 +59,7 @@ const NewMessageForm = ({ conversation_id, user, lastMessage }) => {
         <div className="form-wrap">
           <div
             className="author-avatar"
-            style={{ backgroundColor: stringToColor(user.slice(-20)) }}
+            style={{ backgroundColor: stringToColor(user.id.slice(-20)) }}
           />
           <input
             className="new-message-input"
