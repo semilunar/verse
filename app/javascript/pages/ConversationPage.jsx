@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 
 import NewMessageForm from "../components/NewMessageForm";
 import needBlur from "../helpers/needBlur";
 import setTitle from "../helpers/setTitle";
 import stringToColor from "../helpers/stringToColor";
+import getMessageId from "../helpers/getMessageId";
 
 const ConversationPage = ({ conversation, user, typing }) => {
   useEffect(() => {
@@ -12,6 +14,15 @@ const ConversationPage = ({ conversation, user, typing }) => {
       setTitle(conversation.title);
     }
   }, [conversation]);
+
+  const handleSend = e => {
+    e.preventDefault();
+
+    axios.post("/publications", {
+      conversation_id: conversation.id,
+      author: user.id
+    });
+  };
 
   if (!conversation) return null;
 
@@ -27,7 +38,7 @@ const ConversationPage = ({ conversation, user, typing }) => {
         </h2>
 
         <ul className="messages-list">
-          {orderedMessages(messages, user)}
+          {orderedMessages(messages, user.id)}
           {typing.text && typing.author !== user.id && (
             <li className="message-wrap">
               <div
@@ -44,7 +55,7 @@ const ConversationPage = ({ conversation, user, typing }) => {
         <NewMessageForm conversation_id={id} />
       </div>
 
-      <button>Publish (0/0)</button>
+      <button onClick={handleSend}>Publish</button>
     </div>
   );
 };
@@ -59,9 +70,11 @@ const orderedMessages = (messages, user) => {
       <li className="message-wrap" key={message.id}>
         <div
           className="author-avatar"
-          style={{ backgroundColor: stringToColor(message.author.slice(-20)) }}
+          style={{
+            backgroundColor: stringToColor(getMessageId(message).slice(-20))
+          }}
         />
-        <p className={`message-text ${needBlur(message.author, user)}`}>
+        <p className={`message-text ${needBlur(getMessageId(message), user)}`}>
           {message.text}
         </p>
       </li>

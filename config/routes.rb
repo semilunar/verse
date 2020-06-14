@@ -3,10 +3,11 @@ Rails.application.routes.draw do
 
   resources :conversations, only: [:index, :create]
   resources :messages, only: [:create]
+  resources :publications, only: [:index, :create]
 
   post 'typing', to: 'messages#typing'
   post 'deleteconversation', to: 'conversations#destroy'
-  
+
   mount ActionCable.server => '/cable'
 
   get '*path', to: 'page#index'

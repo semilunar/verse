@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
-export default () => {
+const NewConversationForm = ({ user }) => {
   const [title, setTitle] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
-    axios.post("/conversations", { title });
+    axios.post("/conversations", { title, author: user.id });
     setTitle("");
   };
 
@@ -26,3 +27,5 @@ export default () => {
     </div>
   );
 };
+
+export default connect(({ user }) => ({ user }))(NewConversationForm);

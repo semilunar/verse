@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { connect } from "react-redux";
 
-export default () => {
+import { setPublications } from "../store/publications/actions";
+
+const ProjectsPage = ({ setPublications, publications }) => {
+  useEffect(() => {
+    axios.get("/publications").then(({ data }) => setPublications(data));
+  }, []);
+
   return (
     <div className="projects-page">
       <h2 className="subheader">Finished projects</h2>
-      <ul className="projects-list">
-        <li className="project-item">Project item</li>
-      </ul>
+      {publications.length > 0 ? (
+        <ul className="projects-list">
+          {publications.map(pub => (
+            <Link
+              to={`/project/${pub.id}`}
+              key={pub.id}
+              className="project-item"
+            >
+              <div className="project-title">{pub.title}</div>
+              <span className="project-authors">{pub.authors}</span>
+              <span className="project-date">{pub.created_at}</span>
+            </Link>
+          ))}
+        </ul>
+      ) : (
+        <p>Nothing here yet...</p>
+      )}
     </div>
   );
 };
+
+const mapStateToProps = ({ publications }) => ({ publications });
+
+const mapDispatchToProps = dispatch => ({
+  setPublications: data => dispatch(setPublications(data))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProjectsPage);

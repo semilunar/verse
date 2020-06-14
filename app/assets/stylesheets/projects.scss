@@ -17,23 +17,29 @@
     flex-direction: column;
     flex-wrap: wrap;
 
-    a {
-      width: fit-content;
-    }
-
     .project-item {
       font-size: 18px;
-      line-height: 32px;
+      height: 50px;
+      line-height: 50px;
       padding: 4px 10px;
-      width: fit-content;
+      width: 100%;
       cursor: pointer;
-      transition: 0.1s background ease-out;
-      -webkit-transition: 0.1s background ease-out;
-      -moz-transition: 0.1s background ease-out;
-      -o-transition: 0.1s background ease-out;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #ececec;
 
       &:hover {
-        background: #fff !important;
+      }
+
+      .project-title {
+      }
+
+      .project-authors {
+        opacity: 0.5;
+      }
+
+      .project-date {
+        opacity: 0.5;
       }
     }
   }

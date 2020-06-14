@@ -31,7 +31,11 @@ const NewMessageForm = ({ conversation_id, user, lastMessage }) => {
 
   const handleSend = () => {
     axios.post("/typing", { typing: "", conversation_id, user: user.id });
-    axios.post("/messages", { text, conversation_id, author: user.id });
+    axios.post("/messages", {
+      text,
+      conversation_id,
+      author: `${user.id} ${user.username}`
+    });
 
     setText("");
   };
