@@ -8,7 +8,7 @@ class PublicationsController < ApplicationController
     conversation = Conversation.find(params[:conversation_id])
     if conversation.author != params[:author]
       puts 'AUTHOR PROBLEM'
-      render json: {message: 'no rights'}
+      render json: {message: 'No rights'}
       return
     end
 
@@ -24,7 +24,7 @@ class PublicationsController < ApplicationController
       end
       content += text
 
-      author = message.author.split(' ')[0]
+      author = message.author.split(' ')[1]
       if !authors.include? author
          authors.push(author)
       else
@@ -34,7 +34,7 @@ class PublicationsController < ApplicationController
     end
 
     publication.title = conversation.title
-    publication.authors = authors.join(' ')
+    publication.authors = authors.join(', ')
     publication.content = content
 
     if publication.save
