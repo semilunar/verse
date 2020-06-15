@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { connect } from "react-redux";
 
+import getDate from "../helpers/getDate";
+
 import { setPublications } from "../store/publications/actions";
 
 const ProjectsPage = ({ setPublications, publications }) => {
@@ -23,7 +25,7 @@ const ProjectsPage = ({ setPublications, publications }) => {
             >
               <div className="project-title">{pub.title}</div>
               <span className="project-authors">{pub.authors}</span>
-              <span className="project-date">{pub.created_at}</span>
+              <span className="project-date">{getDate(pub.created_at)}</span>
             </Link>
           ))}
         </ul>

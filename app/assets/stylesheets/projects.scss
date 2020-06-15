@@ -1,5 +1,6 @@
 .projects-page {
-  font-family: "Times New Roman", serif;
+  font-family: "Transcript Mono Pro", monospace;
+
   width: 90vw;
   margin: auto;
   margin-top: 30px;
@@ -9,11 +10,11 @@
     font-size: 18px;
     line-height: 30px;
     margin-bottom: 20px;
+    font-family: "Times New Roman", serif;
   }
 
   .projects-list {
     display: flex;
-    height: 600px;
     flex-direction: column;
     flex-wrap: wrap;
 
