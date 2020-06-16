@@ -3,6 +3,8 @@ import axios from "axios";
 import { ActionCableProvider } from "react-actioncable-provider";
 import { connect } from "react-redux";
 
+import { BrowserRouter as Router } from "react-router-dom";
+
 import MainContainer from "./MainContainer";
 import Modal from "../components/Modal";
 
@@ -11,8 +13,10 @@ axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
 
 const App = ({ auth }) => (
   <ActionCableProvider url="ws://localhost:3000/cable">
-    <MainContainer />
-    {auth && <Modal />}
+    <Router>
+      <MainContainer />
+      {auth && <Modal />}
+    </Router>
   </ActionCableProvider>
 );
 

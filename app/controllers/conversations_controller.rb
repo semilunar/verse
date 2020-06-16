@@ -1,6 +1,6 @@
 class ConversationsController < ApplicationController
   def index
-    conversations = Conversation.all
+    conversations = Conversation.where(finished: false)
     render json: conversations.reverse
   end
 
@@ -18,7 +18,9 @@ class ConversationsController < ApplicationController
   def destroy
     conversation = Conversation.find(params[:id])
     if conversation
-      conversation.destroy
+      conversation.finished = true
+      # conversation.destroy
+      conversation.save
       render json: {message: 'ok'}
     end
   end
@@ -26,6 +28,6 @@ class ConversationsController < ApplicationController
   private
 
   def conversation_params
-    params.require(:conversation).permit(:title, :author)
+    params.require(:conversation).permit(:title, :author, :finished)
   end
 end

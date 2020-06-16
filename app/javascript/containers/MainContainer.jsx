@@ -6,7 +6,8 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect
+  Redirect,
+  useLocation
 } from "react-router-dom";
 
 import store from "../store";
@@ -22,7 +23,7 @@ import {
   setLastMessage
 } from "../store/conversation/actions";
 import { setUser } from "../store/user/actions";
-import { toggleAuth } from "../store/togglers/actions";
+import { setPublications } from "../store/publications/actions";
 
 import Menubar from "../components/Menubar";
 import AboutPage from "../pages/AboutPage";
@@ -39,32 +40,41 @@ const MainContainer = ({
   setActiveConversation,
   updateConversations,
   addConversation,
-  activeConversation,
   handleUserToStore,
   handleTypingToStore,
   typing,
   handleLastMessage,
   deleteConversation,
-  toggleAuth
+  toggleAuth,
+  setPublications,
+  user
 }) => {
+  const location = useLocation();
   // в корневом элементе делаем запрос на все беседы,
   // чтобы юзер при загрузке увидел их список
   useEffect(() => {
     axios.get("/conversations").then(({ data }) => handleConversations(data));
-    const data = userAuthHandler();
-    if (data) {
-      handleUserToStore(data);
-    } else {
-      toggleAuth(true);
-    }
+    axios.get("/publications").then(({ data }) => setPublications(data));
   }, []);
 
+  useEffect(() => {
+    const data = userAuthHandler();
+    if (data && !user) {
+      handleUserToStore(data);
+    }
+  }, [user]);
+
   const handleTyping = ({ typing }) => {
+    const slug = location.pathname.split("/")[2];
     const { id } = typing.conversation;
-    if (id !== activeConversation) return;
+    if (id !== slug) return;
 
     const { text, author } = typing;
     handleTypingToStore(text, author);
+  };
+
+  const handleRedirect = data => {
+    console.log("useLocation", useLocation);
   };
 
   const handleReceivedMessage = res => {
@@ -76,13 +86,14 @@ const MainContainer = ({
       conversation => conversation.id === message.conversation_id
     );
     conversation.messages = [...conversation.messages, message];
-    // conversation = { ...conversation };
     updateConversations(conversation);
     const lastWord = text.split(" ").pop();
     handleLastMessage(lastWord, author);
   };
 
   const handleReceivedConversation = response => {
+    console.log("handleReceivedConversation", response);
+    handleRedirect();
     const { conversation } = response;
     addConversation(conversation);
   };
@@ -96,7 +107,7 @@ const MainContainer = ({
   };
 
   return (
-    <Router>
+    <>
       <ActionCableContainer
         handleReceivedConversation={handleReceivedConversation}
         handleReceivedMessage={handleReceivedMessage}
@@ -106,41 +117,39 @@ const MainContainer = ({
       <Switch>
         <Route path="/about" component={AboutPage} />
         <Route path="/projects" component={ProjectsPage} />
-        <Route path="/project/:pid" component={ProjectPage} />
+        <Route path="/project/:id" component={ProjectPage} />
         <Route
           path="/rooms/"
           exact
           render={props => (
-            <ConversationListPage
+            <ConversationListPage {...props} conversations={conversations} />
+          )}
+        />
+        <Route
+          path="/room/:rid"
+          render={props => (
+            <ConversationPage
               {...props}
+              deleteConversation={handleDelete}
               conversations={conversations}
-              setActiveConversation={setActiveConversation}
-              handleReceivedMessage={handleReceivedMessage}
-              handleReceivedConversation={handleReceivedConversation}
-              handleDelete={handleDelete}
             />
           )}
         />
-        {activeConversation ? (
-          <Route
-            path="/room/:id"
-            render={props => <ConversationPage {...props} />}
-          />
-        ) : null}
         <Redirect to="/about" />
       </Switch>
-    </Router>
+    </>
   );
 };
 
 // подключаем state редаксa и экшены к пропсам компонента
 const mapStateToProps = ({
+  user,
   conversations,
-  conversation: { conversation, typing }
+  conversation: { typing }
 }) => ({
   conversations,
-  activeConversation: conversation,
-  typing
+  typing,
+  user
 });
 // возвращает объект с пропсом handleConversations, который есть функция,
 // которая диспатчит экшн, payload которой есть data
@@ -154,7 +163,8 @@ const mapDispatchToProps = dispatch => ({
   handleTypingToStore: (text, author) => dispatch(setTyping(text, author)),
   handleLastMessage: (text, author) => dispatch(setLastMessage(text, author)),
   deleteConversation: id => dispatch(deleteConversation(id)),
-  toggleAuth: bool => dispatch(toggleAuth(bool))
+  toggleAuth: bool => dispatch(toggleAuth(bool)),
+  setPublications: data => dispatch(setPublications(data))
 });
 
 export default connect(

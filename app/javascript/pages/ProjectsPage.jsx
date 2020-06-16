@@ -7,11 +7,7 @@ import getDate from "../helpers/getDate";
 
 import { setPublications } from "../store/publications/actions";
 
-const ProjectsPage = ({ setPublications, publications }) => {
-  useEffect(() => {
-    axios.get("/publications").then(({ data }) => setPublications(data));
-  }, []);
-
+const ProjectsPage = ({ publications }) => {
   return (
     <div className="projects-page">
       <h2 className="subheader">Finished projects</h2>
@@ -38,11 +34,4 @@ const ProjectsPage = ({ setPublications, publications }) => {
 
 const mapStateToProps = ({ publications }) => ({ publications });
 
-const mapDispatchToProps = dispatch => ({
-  setPublications: data => dispatch(setPublications(data))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ProjectsPage);
+export default connect(mapStateToProps)(ProjectsPage);

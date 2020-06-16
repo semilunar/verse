@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ActionCable } from "react-actioncable-provider";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import NewConversationForm from "../components/NewConversationForm";
 
+import { toggleAuth } from "../store/togglers/actions";
+
 import stringToColor from "../helpers/stringToColor";
 
-export default ({ setActiveConversation, conversations, handleDelete }) => {
+const ConversationListPage = ({ conversations, user, toggleAuth }) => {
+  useEffect(() => {
+    if (!user) {
+      toggleAuth(true);
+    } else {
+      toggleAuth(false);
+    }
+  }, [user, conversations]);
+
   return (
     <div className="conversation-container">
       <NewConversationForm />
@@ -16,8 +27,6 @@ export default ({ setActiveConversation, conversations, handleDelete }) => {
           conversations.map(c => (
             <Link to={`/room/${c.id}`} key={c.id}>
               <li
-                onClick={() => setActiveConversation(c.id)}
-                onContextMenu={() => handleDelete(c.id)}
                 className="conversation-item"
                 style={{ background: stringToColor((c.id * 9e9).toString()) }}
               >
@@ -29,3 +38,17 @@ export default ({ setActiveConversation, conversations, handleDelete }) => {
     </div>
   );
 };
+
+const mapStateToProps = ({ conversations, user }) => ({
+  conversations,
+  user
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleAuth: bool => dispatch(toggleAuth(bool))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConversationListPage);

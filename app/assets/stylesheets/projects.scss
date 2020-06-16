@@ -45,3 +45,29 @@
     }
   }
 }
+
+.project-page {
+  margin: 60px auto;
+  width: 60%;
+
+  .project-title {
+    font-size: 22px;
+    margin-bottom: 60px;
+  }
+
+  .project-content {
+    margin-bottom: 120px;
+    line-height: 140%;
+    font-size: 18px;
+    letter-spacing: 0.1px;
+  }
+
+  .project-authors {
+    text-align: right;
+    margin-bottom: 12px;
+  }
+
+  .project-date {
+    text-align: right;
+  }
+}

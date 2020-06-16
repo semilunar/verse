@@ -37,18 +37,14 @@ class PublicationsController < ApplicationController
     publication.authors = authors.join(', ')
     publication.content = content
 
+    conversation.finished = true
+
     if publication.save
+      conversation.save
       render json: {message: 'ok', publication: publication}
     else
       render json: {message: 'sth went wrong'}
     end
   end
 
-  def destroy
-    publication = Publication.find(params[:id])
-    if publication
-      publication.destroy
-      render json: {message: 'ok'}
-    end
-  end
 end

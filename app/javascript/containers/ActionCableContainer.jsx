@@ -20,6 +20,9 @@ export default ({
             conversation: c.id
           }}
           onReceived={handleReceivedMessage}
+          // onReceived={res =>
+          //   console.log("!!!---!!!---!!!", res, "!!!---!!!---!!!")
+          // }
         />
       ))}
   </>

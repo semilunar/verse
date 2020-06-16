@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
+
+import { toggleAuth } from "../store/togglers/actions";
 
 import NewMessageForm from "../components/NewMessageForm";
 import needBlur from "../helpers/needBlur";
@@ -8,23 +11,65 @@ import setTitle from "../helpers/setTitle";
 import stringToColor from "../helpers/stringToColor";
 import getMessageId from "../helpers/getMessageId";
 
-const ConversationPage = ({ conversation, user, typing }) => {
+const ConversationPage = ({
+  conversations,
+  user,
+  typing,
+  deleteConversation,
+  toggleAuth,
+  match: {
+    params: { rid }
+  }
+}) => {
+  const history = useHistory();
+  const [conversation, setConversation] = useState(null);
+
   useEffect(() => {
-    if (conversation) {
-      setTitle(conversation.title);
+    if (!user) {
+      console.log("SADFSDXCFSDX", user);
+      toggleAuth(true);
+    } else {
+      toggleAuth(false);
     }
-  }, [conversation]);
+    if (conversation && conversation.finished) {
+      console.log(
+        "REDIRECT !!!!!_____!!_!!!____!!!!!_----!!!!!!_-----!!_-!_-!-sdaf REDIRECT"
+      );
+    } else if (!conversation) {
+      handleOpenPage();
+    }
+  }, [rid, conversations, user]);
 
-  const handleSend = e => {
-    e.preventDefault();
-
-    axios.post("/publications", {
-      conversation_id: conversation.id,
-      author: user.id
-    });
+  const handleOpenPage = () => {
+    const conv = conversations.find(c => c.id == rid);
+    if (conv) {
+      setConversation(conv);
+      setTitle(conv.title);
+    } else {
+      setConversation(false);
+    }
   };
 
-  if (!conversation) return null;
+  const handlePublish = e => {
+    e.preventDefault();
+    const { id } = conversation;
+
+    axios
+      .post("/publications", {
+        conversation_id: id,
+        author: user.id
+      })
+      .then(({ data }) => {
+        if (data.message === "ok") {
+          deleteConversation(id);
+          history.push("/projects");
+        }
+      });
+  };
+  if (conversation === false) return <h2>Not found...</h2>;
+  if (!conversation) return <h2>Loading...</h2>;
+
+  if (!user) return <h2>Enter user credits...</h2>;
 
   const { id, title, messages } = conversation;
   return (
@@ -55,7 +100,7 @@ const ConversationPage = ({ conversation, user, typing }) => {
         <NewMessageForm conversation_id={id} />
       </div>
 
-      <button onClick={handleSend}>Publish</button>
+      <button onClick={handlePublish}>Publish</button>
     </div>
   );
 };
@@ -84,13 +129,19 @@ const orderedMessages = (messages, user) => {
 
 const mapStateToProps = ({
   conversations,
-  conversation: { conversation, typing },
+  conversation: { typing },
   user
 }) => ({
-  conversation: conversations.find(c => c.id === conversation),
   typing,
-  activeConversation: conversation,
+  conversations,
   user
 });
 
-export default connect(mapStateToProps)(ConversationPage);
+const mapDispatchToProps = dispatch => ({
+  toggleAuth: bool => dispatch(toggleAuth(bool))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ConversationPage);
