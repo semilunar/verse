@@ -18,11 +18,19 @@ const ConfirmPublishModal = ({ toggleConfirmPublish, confirmPublish }) => {
     });
   };
 
+  const handleCancel = e => {
+    e.preventDefault();
+    toggleConfirmPublish(false);
+  };
+
   return (
     <Modal>
       <h3>Do you really wanna finish the process and publish your text?</h3>
       <form onSubmit={handleSubmit}>
         <input type="submit" value="Confirm" style={{ fontSize: 16 }} />
+        <button onClick={handleCancel} style={{ marginLeft: 20, fontSize: 16 }}>
+          Cancel
+        </button>
       </form>
     </Modal>
   );

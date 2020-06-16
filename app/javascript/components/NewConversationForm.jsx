@@ -7,6 +7,7 @@ const NewConversationForm = ({ user }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (!title.trim()) return;
     axios.post("/conversations", { title, author: user.id });
     setTitle("");
   };
@@ -22,7 +23,7 @@ const NewConversationForm = ({ user }) => {
           <input
             type="text"
             value={title}
-            maxlength="42"
+            maxLength="42"
             onChange={e => setTitle(e.target.value)}
           />
           <input type="submit" value="Create" style={{ fontSize: 16 }} />
