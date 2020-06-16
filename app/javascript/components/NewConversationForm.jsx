@@ -14,11 +14,15 @@ const NewConversationForm = ({ user }) => {
   return (
     <div className="newConversationForm">
       <form onSubmit={handleSubmit}>
-        <label className="subheader">Create a new room:</label>
+        <label className="subheader">
+          Create a new room:{" "}
+          {title.length > 0 && <span>{title.length}/42</span>}
+        </label>
         <div className="form-wrap">
           <input
             type="text"
             value={title}
+            maxlength="42"
             onChange={e => setTitle(e.target.value)}
           />
           <input type="submit" value="Create" style={{ fontSize: 16 }} />

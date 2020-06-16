@@ -48,6 +48,33 @@
           user-select: none;
         }
       }
+
+      .author-avatar {
+        width: 30px;
+        height: 30px;
+        margin-right: 36px;
+        border-radius: 50%;
+        background: #000;
+        cursor: pointer;
+
+        &:hover {
+          & + .nickname {
+            opacity: 0.5;
+          }
+        }
+      }
+
+      .nickname {
+        position: absolute;
+        right: -20px;
+        text-align: right;
+        opacity: 0;
+        background: #fff;
+        font-family: "Times New Roman", serif;
+        text-transform: lowercase;
+        font-size: 16px;
+        transition: opacity 0.1s ease-out;
+      }
     }
   }
 

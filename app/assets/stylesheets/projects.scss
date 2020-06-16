@@ -27,20 +27,35 @@
       cursor: pointer;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid #ececec;
+      transition: border-bottom 0.2s ease;
 
       &:hover {
+        border-bottom: 1px solid #000;
+
+        .project-authors {
+          opacity: 1;
+        }
+        .project-date {
+          opacity: 1;
+        }
       }
 
       .project-title {
+        width: 420px;
       }
 
       .project-authors {
+        width: 500px;
         opacity: 0.5;
+        transition: opacity 0.2s ease;
       }
 
       .project-date {
+        width: 80px;
         opacity: 0.5;
+        transition: opacity 0.2s ease;
       }
     }
   }
@@ -57,9 +72,10 @@
 
   .project-content {
     margin-bottom: 120px;
-    line-height: 140%;
     font-size: 18px;
-    letter-spacing: 0.1px;
+    line-height: 32px;
+    width: 573px;
+    margin: auto;
   }
 
   .project-authors {

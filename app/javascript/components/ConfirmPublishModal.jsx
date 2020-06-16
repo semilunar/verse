@@ -20,9 +20,9 @@ const ConfirmPublishModal = ({ toggleConfirmPublish, confirmPublish }) => {
 
   return (
     <Modal>
-      <h3>Confirm..?</h3>
+      <h3>Do you really wanna finish the process and publish your text?</h3>
       <form onSubmit={handleSubmit}>
-        <input type="submit" value="confirm!" style={{ fontSize: 16 }} />
+        <input type="submit" value="Confirm" style={{ fontSize: 16 }} />
       </form>
     </Modal>
   );

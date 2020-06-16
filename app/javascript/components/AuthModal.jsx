@@ -23,7 +23,7 @@ const AuthModal = ({ toggleAuth, setUser }) => {
     <Modal>
       <h3>Wait a sec! Set your nickname first</h3>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="Unknown Bird" />
+        <input type="text" placeholder="Unknown Bird" maxlength="25" />
         <input type="submit" value="Save" style={{ fontSize: 16 }} />
       </form>
     </Modal>
