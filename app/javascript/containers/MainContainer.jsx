@@ -7,7 +7,8 @@ import {
   Route,
   Switch,
   Redirect,
-  useLocation
+  useLocation,
+  useHistory
 } from "react-router-dom";
 
 import store from "../store";
@@ -23,7 +24,7 @@ import {
   setLastMessage
 } from "../store/conversation/actions";
 import { setUser } from "../store/user/actions";
-import { setPublications } from "../store/publications/actions";
+import { setPublications, addPublication } from "../store/publications/actions";
 
 import Menubar from "../components/Menubar";
 import AboutPage from "../pages/AboutPage";
@@ -47,9 +48,11 @@ const MainContainer = ({
   deleteConversation,
   toggleAuth,
   setPublications,
+  addPublication,
   user
 }) => {
   const location = useLocation();
+  const history = useHistory();
   // в корневом элементе делаем запрос на все беседы,
   // чтобы юзер при загрузке увидел их список
   useEffect(() => {
@@ -65,21 +68,30 @@ const MainContainer = ({
   }, [user]);
 
   const handleTyping = ({ typing }) => {
-    const slug = location.pathname.split("/")[2];
+    console.log("handleTyping pre");
     const { id } = typing.conversation;
-    if (id !== slug) return;
+    if (!location.pathname.includes(`room/${id}`)) return;
+
+    console.log("handleTyping POST");
 
     const { text, author } = typing;
     handleTypingToStore(text, author);
   };
 
-  const handleRedirect = data => {
-    console.log("useLocation", useLocation);
+  const handleFinished = ({ finished }) => {
+    const { id, publication } = finished;
+    addPublication(publication);
+    deleteConversation(id);
+
+    if (!location.pathname.includes(`room/${id}`)) return;
+
+    history.push(`/project/${publication.id}`);
   };
 
   const handleReceivedMessage = res => {
     if (res.hasOwnProperty("typing")) return handleTyping(res);
 
+    console.log("HERE!&&!&!!@#!");
     const { message } = res;
     const { text, author } = message;
     let conversation = conversations.find(
@@ -93,17 +105,9 @@ const MainContainer = ({
 
   const handleReceivedConversation = response => {
     console.log("handleReceivedConversation", response);
-    handleRedirect();
+    if (response.hasOwnProperty("finished")) return handleFinished(response);
     const { conversation } = response;
     addConversation(conversation);
-  };
-
-  const handleDelete = id => {
-    axios.post("/deleteconversation", { id }).then(({ data }) => {
-      if (data.message === "ok") {
-        deleteConversation(id);
-      }
-    });
   };
 
   return (
@@ -128,11 +132,7 @@ const MainContainer = ({
         <Route
           path="/room/:rid"
           render={props => (
-            <ConversationPage
-              {...props}
-              deleteConversation={handleDelete}
-              conversations={conversations}
-            />
+            <ConversationPage {...props} conversations={conversations} />
           )}
         />
         <Redirect to="/about" />
@@ -164,7 +164,8 @@ const mapDispatchToProps = dispatch => ({
   handleLastMessage: (text, author) => dispatch(setLastMessage(text, author)),
   deleteConversation: id => dispatch(deleteConversation(id)),
   toggleAuth: bool => dispatch(toggleAuth(bool)),
-  setPublications: data => dispatch(setPublications(data))
+  setPublications: data => dispatch(setPublications(data)),
+  addPublication: pub => dispatch(addPublication(pub))
 });
 
 export default connect(

@@ -6,18 +6,23 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import MainContainer from "./MainContainer";
-import Modal from "../components/Modal";
+import AuthModal from "../components/AuthModal";
+import ConfirmPublishModal from "../components/ConfirmPublishModal";
 
 const csrfToken = document.querySelector('[name="csrf-token"]').content;
 axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
 
-const App = ({ auth }) => (
+const App = ({ auth, confirmPublish }) => (
   <ActionCableProvider url="ws://localhost:3000/cable">
     <Router>
       <MainContainer />
-      {auth && <Modal />}
+      {auth && <AuthModal />}
+      {confirmPublish && <ConfirmPublishModal />}
     </Router>
   </ActionCableProvider>
 );
 
-export default connect(({ togglers: { auth } }) => ({ auth }))(App);
+export default connect(({ togglers: { auth, confirmPublish } }) => ({
+  auth,
+  confirmPublish
+}))(App);

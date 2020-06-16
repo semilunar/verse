@@ -2,21 +2,25 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { ActionCable } from "react-actioncable-provider";
 
-import { toggleAuth } from "../store/togglers/actions";
+import { toggleAuth, toggleConfirmPublish } from "../store/togglers/actions";
+import { deleteConversation } from "../store/conversations/actions";
 
 import NewMessageForm from "../components/NewMessageForm";
 import needBlur from "../helpers/needBlur";
 import setTitle from "../helpers/setTitle";
 import stringToColor from "../helpers/stringToColor";
-import getMessageId from "../helpers/getMessageId";
+import getMessageAuthor from "../helpers/getMessageAuthor";
 
 const ConversationPage = ({
+  handleReceivedMessage,
   conversations,
   user,
   typing,
   deleteConversation,
   toggleAuth,
+  toggleConfirmPublish,
   match: {
     params: { rid }
   }
@@ -25,20 +29,20 @@ const ConversationPage = ({
   const [conversation, setConversation] = useState(null);
 
   useEffect(() => {
+    if (!conversation) {
+      handleOpenPage();
+    }
+
+    return () => setTitle("Verse — A Massage To You");
+  }, [rid, conversations]);
+
+  useEffect(() => {
     if (!user) {
-      console.log("SADFSDXCFSDX", user);
       toggleAuth(true);
     } else {
       toggleAuth(false);
     }
-    if (conversation && conversation.finished) {
-      console.log(
-        "REDIRECT !!!!!_____!!_!!!____!!!!!_----!!!!!!_-----!!_-!_-!-sdaf REDIRECT"
-      );
-    } else if (!conversation) {
-      handleOpenPage();
-    }
-  }, [rid, conversations, user]);
+  }, [user]);
 
   const handleOpenPage = () => {
     const conv = conversations.find(c => c.id == rid);
@@ -52,26 +56,16 @@ const ConversationPage = ({
 
   const handlePublish = e => {
     e.preventDefault();
-    const { id } = conversation;
 
-    axios
-      .post("/publications", {
-        conversation_id: id,
-        author: user.id
-      })
-      .then(({ data }) => {
-        if (data.message === "ok") {
-          deleteConversation(id);
-          history.push("/projects");
-        }
-      });
+    const { id } = conversation;
+    toggleConfirmPublish({ conversation_id: id, author: user.id });
   };
   if (conversation === false) return <h2>Not found...</h2>;
   if (!conversation) return <h2>Loading...</h2>;
 
   if (!user) return <h2>Enter user credits...</h2>;
 
-  const { id, title, messages } = conversation;
+  const { id, title, messages, author } = conversation;
   return (
     <div className="conversation-page">
       <div className="conversation-area">
@@ -83,7 +77,7 @@ const ConversationPage = ({
         </h2>
 
         <ul className="messages-list">
-          {orderedMessages(messages, user.id)}
+          {orderedMessages(messages, user)}
           {typing.text && typing.author !== user.id && (
             <li className="message-wrap">
               <div
@@ -100,7 +94,7 @@ const ConversationPage = ({
         <NewMessageForm conversation_id={id} />
       </div>
 
-      <button onClick={handlePublish}>Publish</button>
+      {author === user.id && <button onClick={handlePublish}>Publish</button>}
     </div>
   );
 };
@@ -116,10 +110,18 @@ const orderedMessages = (messages, user) => {
         <div
           className="author-avatar"
           style={{
-            backgroundColor: stringToColor(getMessageId(message).slice(-20))
+            backgroundColor: stringToColor(
+              getMessageAuthor(message, 0).slice(-20)
+            )
           }}
         />
-        <p className={`message-text ${needBlur(getMessageId(message), user)}`}>
+        <div className="nickname">{getMessageAuthor(message, 1)}</div>
+        <p
+          className={`message-text ${needBlur(
+            getMessageAuthor(message, 0),
+            user.id
+          )}`}
+        >
           {message.text}
         </p>
       </li>
@@ -138,7 +140,9 @@ const mapStateToProps = ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  toggleAuth: bool => dispatch(toggleAuth(bool))
+  toggleAuth: bool => dispatch(toggleAuth(bool)),
+  toggleConfirmPublish: bool => dispatch(toggleConfirmPublish(bool)),
+  deleteConversation: id => dispatch(deleteConversation(id))
 });
 
 export default connect(

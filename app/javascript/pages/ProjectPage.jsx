@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import getDate from "../helpers/getDate";
+import setTitle from "../helpers/setTitle";
 
 const ProjectPage = ({
   match: {
@@ -12,6 +13,8 @@ const ProjectPage = ({
   const [project, setProject] = useState(null);
   useEffect(() => {
     handleSelectProject(id);
+
+    return () => setTitle("Verse — A Massage To You");
   }, [id, publications]);
 
   const handleSelectProject = id => {
@@ -19,6 +22,7 @@ const ProjectPage = ({
 
     if (pub) {
       setProject(pub);
+      setTitle(pub.title);
     } else {
       setProject(false);
     }
@@ -41,19 +45,5 @@ const ProjectPage = ({
 };
 
 const mapStateToProps = ({ publications }) => ({ publications });
-// возвращает объект с пропсом handleConversations, который есть функция,
-// которая диспатчит экшн, payload которой есть data
-// const mapDispatchToProps = dispatch => ({
-//   handleConversations: data => dispatch(setConversations(data)),
-//   setActiveConversation: id => dispatch(setConversation(id)),
-//   updateConversations: conversation =>
-//     dispatch(updateConversations(conversation)),
-//   addConversation: conversation => dispatch(addConversation(conversation)),
-//   handleUserToStore: data => dispatch(setUser(data)),
-//   handleTypingToStore: (text, author) => dispatch(setTyping(text, author)),
-//   handleLastMessage: (text, author) => dispatch(setLastMessage(text, author)),
-//   deleteConversation: id => dispatch(deleteConversation(id)),
-//   toggleAuth: bool => dispatch(toggleAuth(bool))
-// });
 
 export default connect(mapStateToProps)(ProjectPage);

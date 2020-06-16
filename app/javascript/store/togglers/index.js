@@ -1,11 +1,15 @@
 import { createReducer } from "redux-act";
-import { toggleAuth } from "./actions";
+import { toggleAuth, toggleConfirmPublish } from "./actions";
 
-const initialState = { auth: false };
+const initialState = { auth: false, confirmPublish: false };
 
 export default createReducer(
   {
-    [toggleAuth]: (state, payload) => ({ ...state, auth: payload })
+    [toggleAuth]: (state, payload) => ({ ...state, auth: payload }),
+    [toggleConfirmPublish]: (state, payload) => ({
+      ...state,
+      confirmPublish: payload
+    })
   },
   initialState
 );

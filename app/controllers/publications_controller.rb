@@ -41,6 +41,9 @@ class PublicationsController < ApplicationController
 
     if publication.save
       conversation.save
+      data = { :finished => { :id => params[:conversation_id], :publication => publication } }
+      ActionCable.server.broadcast 'conversations_channel', data
+      # MessagesChannel.broadcast_to conversation, data
       render json: {message: 'ok', publication: publication}
     else
       render json: {message: 'sth went wrong'}
