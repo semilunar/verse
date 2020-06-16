@@ -1,0 +1,34 @@
+@media only screen and (max-width: 768px) {
+  .conversation-container {
+    width: 100vw;
+    padding: 0 15px;
+  }
+
+  .conversation-page {
+    width: 100vw;
+    padding: 0 15px;
+  }
+
+  .nickname {
+    display: none;
+  }
+
+  .project-item {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .project-title {
+      width: 100px;
+    }
+
+    .project-authors {
+      width: 80px;
+    }
+
+    .project-date {
+      width: 70px;
+    }
+  }
+}
