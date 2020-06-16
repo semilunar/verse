@@ -13,7 +13,7 @@ const csrfToken = document.querySelector('[name="csrf-token"]').content;
 axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
 
 const App = ({ auth, confirmPublish }) => (
-  <ActionCableProvider url="ws://localhost:3000/cable">
+  <ActionCableProvider url={`ws://localhost:${process.env.PORT || 3000}/cable`}>
     <Router>
       <MainContainer />
       {auth && <AuthModal />}
